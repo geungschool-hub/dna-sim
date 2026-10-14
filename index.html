@@ -394,7 +394,7 @@ var DRAFT_KEY  = 'dna_sim_draft_ok';
   </header>
 
   <!-- ── 미완성 잠금 ── -->
-  <section class="card" id="draftGate">
+  <section class="card" id="draftGate" data-hub-card="gate">
     <h2 class="amber">🔒 아직 준비 중이다</h2>
     <p>이 활동은 아직 다듬는 중이다. 교사용 열쇠말을 입력하시오.</p>
     <div class="btnrow" style="justify-content:flex-start;">
@@ -408,7 +408,7 @@ var DRAFT_KEY  = 'dna_sim_draft_ok';
 <div class="lockable">
 
   <!-- ══ ① 복제의 규칙 ══ -->
-  <section class="card">
+  <section class="card" data-hub-card="s1">
     <h2>① 복제의 규칙 — 이것만 지키면 된다</h2>
     <table class="rules">
       <thead><tr><th>규칙</th><th>내용</th></tr></thead>
@@ -460,7 +460,7 @@ var DRAFT_KEY  = 'dna_sim_draft_ok';
   </section>
 
   <!-- ══ ② 연출 무대 — 갈라짐 ══ -->
-  <section class="card">
+  <section class="card" data-hub-card="s2">
     <h2 class="green">② 이중나선이 풀린다 — 두 주형이 갈라진다</h2>
     <div class="panes">
       <div class="pane-l">
@@ -497,7 +497,7 @@ var DRAFT_KEY  = 'dna_sim_draft_ok';
   </section>
 
   <!-- ══ ③ 조작 무대 ══ -->
-  <section class="card" id="card3">
+  <section class="card" id="card3" data-hub-card="s3">
     <h2 class="pmr">③ 복제 무대 — 새 가닥을 직접 붙이시오</h2>
 
     <div class="panel">
@@ -600,7 +600,7 @@ var DRAFT_KEY  = 'dna_sim_draft_ok';
   </section>
 
   <!-- ══ ④ 완성 ══ -->
-  <section class="card" id="card4">
+  <section class="card" id="card4" data-hub-card="s4">
     <h2 class="lig">④ 완성 — 딸 DNA 2개를 비교하시오</h2>
     <p class="note">③에서 두 새 가닥을 완성하고 🔗 으로 조각을 이은 뒤 <b>[🔍 딸 DNA 확인하기]</b>를 누르시오.</p>
     <div class="btnrow" style="justify-content:flex-start;">
@@ -640,7 +640,7 @@ var DRAFT_KEY  = 'dna_sim_draft_ok';
   </section>
 
   <!-- ══ 💪 더 풀어 보기 ══ -->
-  <section class="card" id="card5">
+  <section class="card" id="card5" data-hub-card="more">
     <h2 class="amber">💪 더 풀어 보기</h2>
     <p class="note">활동에서 본 것을 <b>비틀어</b> 묻는다. 풀지 않아도 활동 완료에는 들어가지 않는다.</p>
     <div id="qh_p1"></div>
@@ -651,7 +651,7 @@ var DRAFT_KEY  = 'dna_sim_draft_ok';
   </section>
 
   <!-- ══ ⑤ 정리하기 ══ -->
-  <section class="card">
+  <section class="card" data-hub-card="wrap">
     <h2 class="green">⑤ 정리하기</h2>
 
     <div class="q">
@@ -2598,7 +2598,7 @@ if (typeof document !== 'undefined' && document.addEventListener){
      ★기록하는 것은 「들어감 · 머문 시간 · 다시 하기」뿐이다. 정답·힌트는 기록하지 않는다(작업노트/방법_활동기록_어디에남길것인가.md).
      ★이름 전체는 기기에 남기지 않는다(학번 + 성 첫 글자만). 기록 칸(track)에는 이름·학번이 없다(uid 만). */
   var APP = 'dna-sim';
-  var VER = 1;
+  var VER = 2;   /* 2: 익명 선택 기기에 남김 · PIN 분실 안내 · 카드 고정 키(data-hub-card) */
   var KEY = 'AIzaSyDNsHgzaruofl82oqrEb7GGkJhv8M04_YY';
   var DB = 'https://geung-hub-stats-default-rtdb.asia-southeast1.firebasedatabase.app';
   var IDT = 'https://identitytoolkit.googleapis.com/v1/accounts:';
@@ -2606,8 +2606,8 @@ if (typeof document !== 'undefined' && document.addEventListener){
   var HOST = 'geungschool-hub.github.io';
   var SCHOOLS = [{ v: 'hyehwa26', t: '혜화여자고등학교' }];   /* 값에 학년도 — 학번은 해마다 다른 학생에게 간다 */
   var PW_SUFFIX = '#gh26';
-  var LS_AUTH = 'hubauth_v1', SS_FB = 'hubgate_fb', SS_SKIP = 'hubgate_skip';
-  var T_STEP = 10000, T_FALLBACK = 10000, ENTER_MS = 5000, IDLE_MS = 60000, FLUSH_MS = 60000;
+  var LS_AUTH = 'hubauth_v1', SS_FB = 'hubgate_fb', LS_ANON = 'hubanon_until';   /* 익명 선택은 기기에 ANON_MS 동안 남는다(탭마다 다시 묻지 않게) */
+  var T_STEP = 10000, T_FALLBACK = 10000, ENTER_MS = 5000, IDLE_MS = 60000, FLUSH_MS = 60000, ANON_MS = 4 * 3600000;
   /* 개인정보 수집·이용 동의 — 처음 로그인(PIN 을 정할 때)에만 받는다. 동의 시각은 users/{uid}/ag(서버 시각)에 남는다.
      ★「오직 수업 및 학습자료 개선 목적으로만 사용되며」는 교사 지정 문구(2026-10-14) — 빼지 말 것 */
   var CONSENT = '<b>개인정보 수집·이용 동의</b>' +
@@ -2783,6 +2783,17 @@ if (typeof document !== 'undefined' && document.addEventListener){
     var btn = el('button'); btn.type = 'button'; btn.textContent = '다른 사람으로 로그인'; btn.onclick = switchUser; b.appendChild(btn);
     D.body.appendChild(b);
   }
+  /* 익명 배지 — 「로그인하기」를 누르면 익명 선택을 지우고 다시 연다 */
+  function anonBadge(){
+    css();
+    var old = D.getElementById('hubl-badge'); if (old) old.parentNode.removeChild(old);
+    var b = el('div', 'hubl-badge'); b.id = 'hubl-badge';
+    var s = el('span'); s.textContent = '👤 익명 (기록 없음)'; b.appendChild(s);
+    var btn = el('button'); btn.type = 'button'; btn.textContent = '로그인하기';
+    btn.onclick = function(){ lsSet(LS_ANON, null); try { location.reload(); } catch (e) {} };
+    b.appendChild(btn);
+    D.body.appendChild(b);
+  }
   function switchUser(){
     flush(true);
     me = null; saveMe();
@@ -2808,7 +2819,7 @@ if (typeof document !== 'undefined' && document.addEventListener){
       '<div class="hubl-msg" id="hubl-msg"></div></form>';
     D.body.appendChild(ov);
     D.getElementById('hubl-form').onsubmit = function(ev){ ev.preventDefault(); login(); };
-    D.getElementById('hubl-skip').onclick = function(){ ssSet(SS_SKIP, '1'); closeGate(); };
+    D.getElementById('hubl-skip').onclick = function(){ lsSet(LS_ANON, String(now() + ANON_MS)); closeGate(); anonBadge(); };
     reach();
   }
   function closeGate(){ if (ov && ov.parentNode) ov.parentNode.removeChild(ov); ov = null; }
@@ -2846,10 +2857,11 @@ if (typeof document !== 'undefined' && document.addEventListener){
       msg(typeof e === 'string' ? e : '로그인하지 못했다. 다시 시도하시오.', /^처음 로그인/.test(e) ? 'info' : 'bad');   /* 처음 로그인 안내는 오류가 아니다 */
     }).then(function(){ busy = false; if (go) go.disabled = false; });
   }
+  var FORGOT = 'PIN 을 잊었으면 선생님께 초기화를 요청하시오.';
   function wrongPin(){
     fails++;
-    if (fails >= 5){ fails = 0; lockUntil = now() + 60000; return 'PIN 이 5번 틀렸다. 60초 뒤 다시 시도하시오.'; }
-    return 'PIN 이 옳지 않다. (' + fails + '/5)';
+    if (fails >= 5){ fails = 0; lockUntil = now() + 60000; return 'PIN 이 5번 틀렸다. 60초 뒤 다시 시도하시오. ' + FORGOT; }
+    return 'PIN 이 옳지 않다. (' + fails + '/5)' + (fails >= 3 ? ' ' + FORGOT : '');
   }
   function authFail(r){
     var m = errMsg(r);
@@ -3032,7 +3044,7 @@ if (typeof document !== 'undefined' && document.addEventListener){
         return;
       }
       me = null;
-      if (ssGet(SS_SKIP) === '1') return;
+      if (Number(lsGet(LS_ANON) || 0) > now()){ anonBadge(); return; }
       if (Number(ssGet(SS_FB) || 0) > now()) return;
       showGate();
     } catch (e) {}
